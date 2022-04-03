@@ -33,8 +33,9 @@ h1 {
     padding: 1.5rem;
 }
 
-button {
+button, a {
     background: radial-gradient(circle, var(--leather) 0%, var(--madder) 100%);
+    text-decoration: none;
     border-radius: .8rem;
     color: var(--eggshell);
     cursor: pointer;
@@ -49,6 +50,9 @@ button {
     margin-top: 0.6em;
 }
 
+header div {
+    margin: 1.5rem;
+}
 header button {
     font-size: 5rem;
 }
