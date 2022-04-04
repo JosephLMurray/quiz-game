@@ -1,5 +1,5 @@
 const questions = [
-    {question: 'What does JSON stand?',  possibles: ['JavaScript Object Notation', 'whatever'], answer: 'JavaScript Object Notation'},
+    {question: 'What does JSON stand for 1',  possibles: ['JavaScript Object Notation', 'whatever', 'yep', 'you know it'], answer: 'JavaScript Object Notation'},
     {question: 'What does JSON stand for 2',  possibles: ['JavaScript Object Notation', 'whatever', 'yep', 'you know it'], answer: 'JavaScript Object Notation'},
     {question: 'What does JSON stand for 3',  possibles: ['JavaScript Object Notation', 'whatever', 'yep', 'you know it'], answer: 'JavaScript Object Notation'},
     {question: 'What does JSON stand for 4',  possibles: ['JavaScript Object Notation', 'whatever', 'yep', 'you know it'], answer: 'JavaScript Object Notation'},
@@ -83,7 +83,6 @@ const populatePossibles = () => {
 const checkGameState = () => {
     if (questions.length === 0) {
         logHighScore();
-        location.reload;
     }
 }
 
@@ -91,31 +90,33 @@ const logHighScore = () => {
     highScore = [];
     console.log(highScore);
     //grab highscores from local storage
-    highScore = localStorage.getItem("highScore", JSON.parse(highScore));
-    console.log(highScore);
+    if (localStorage.getItem("highScore") !== null) {
+        highScore = localStorage.getItem("highScore", JSON.parse(highScore));
+    };
     //grab time for score
     playerScore = timer.textContent;
     console.log(playerScore);
-    console.log(highScore);
     //prompt for player name
     playerName = prompt("Congratulations! Enter your name:");
     console.log(playerName);
-    console.log(highScore);
-    //trim playerName
-    playerName = playerName.trim();
-    console.log(playerName);
-    //check if highScore is empty
-    if (highScore === null) {
-        highScore = [{pName:"", score:""}];
-    }
+ 
+    let scoreObj = {
+        pName: playerName.trim(),
+        score: playerScore
+    };
+    console.log(scoreObj);
     //insert into High Scores array of objects
-    unshift.highScore({pName: playerName, score: playerScore});
+    highScore.unshift(scoreObj);
     //sort from high to low
     highScore.sort((a, b) => {
         return a.score - b.score;
     });
     //trim to top 10 scores
+    if (highScore.length > 10) {
     highScore = highScore.slice(0, 9);
+    };
     //log highScore to local storage
     localStorage.setItem("highScore", JSON.stringify(highScore));
+
+    location.reload;
 }
