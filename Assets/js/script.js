@@ -102,26 +102,16 @@ const logHighScore = () => {
 
     //grab time for score
     playerScore = timer.textContent;
-    console.log(playerScore);
     //prompt for player name
     playerName = prompt("Congratulations! Enter your name:");
-    console.log(playerName);
  
     let scoreObj = {
         pName: playerName.trim(),
         score: playerScore
     };
-    console.log(scoreObj);
     //insert into High Scores array of objects
     highScore.unshift(scoreObj);
-    //sort from high to low
-    highScore.sort((a, b) => {
-        return a.score - b.score;
-    });
-    //trim to top 10 scores
-    if (highScore.length > 10) {
-    highScore = highScore.slice(0, 9);
-    };
+
     //log highScore to local storage
     localStorage.setItem("highScore", JSON.stringify(highScore));
 

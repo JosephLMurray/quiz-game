@@ -151,3 +151,7 @@ padding: 20px;
     padding: 2rem;
 }
 
+#score-container {
+    display:flex;
+    
+}
