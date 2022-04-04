@@ -1,4 +1,4 @@
-const questions = [
+const gameData = [
     {question: 'What does JSON stand for 1',  possibles: ['JavaScript Object Notation', 'whatever', 'yep', 'you know it'], answer: 'JavaScript Object Notation'},
     {question: 'What does JSON stand for 2',  possibles: ['JavaScript Object Notation', 'whatever', 'yep', 'you know it'], answer: 'JavaScript Object Notation'},
     {question: 'What does JSON stand for 3',  possibles: ['JavaScript Object Notation', 'whatever', 'yep', 'you know it'], answer: 'JavaScript Object Notation'},
@@ -18,6 +18,7 @@ var poss2 = document.getElementById("poss2");
 var poss3 = document.getElementById("poss3");
 var poss4 = document.getElementById("poss4");
 var timerText = document.getElementsByClassName("timer-text");
+var message = document.getElementById("message");
 var startButton = document.getElementById("start-button");
 var scoresButton = document.getElementById("scores");
 var returnButton = document.getElementById("return-button");
@@ -40,20 +41,25 @@ startButton.addEventListener("click", function(event){
 
 
 const gameUpdate = () => {
-    checkGameState();  
-    selectQuestion();
-    populateQuestion();
-    populatePossibles();    
+    if (gameData.length !== 0) {
+        selectQuestion();
+        populateQuestion();
+        populatePossibles();    
+    } else if (gameData.length === 0) {
+    logHighScore();
+    location.reload();
+    };
 };
 
 const checkAnswer = (element) =>{
     if (element.innerHTML !== currentQuestion.answer) {
-     timeLeft -= 2;
+     timeLeft -= 6;
     }
     gameUpdate()
  };
 
 const countdown = () => {
+    message.textContent = "Seconds Remaining"
     timeInterval = setInterval(() => {
         timeLeft--;
         timer.textContent = timeLeft;
@@ -66,7 +72,7 @@ const countdown = () => {
 }
 
 const selectQuestion = () => {
-    let question = questions.splice(Math.floor(Math.random()*questions.length), 1).pop();
+    let question = gameData.splice(Math.floor(Math.random()*gameData.length), 1).pop();
     currentQuestion = question;
 };
 
@@ -80,19 +86,20 @@ const populatePossibles = () => {
     });
 };
 
-const checkGameState = () => {
-    if (questions.length === 0) {
-        logHighScore();
-    }
-}
+// const checkGameState = () => {
+
+//         logHighScore();
+//     }
+// }
 
 const logHighScore = () => {
     highScore = [];
-    console.log(highScore);
     //grab highscores from local storage
     if (localStorage.getItem("highScore") !== null) {
-        highScore = localStorage.getItem("highScore", JSON.parse(highScore));
+        
+        highScore = [JSON.parse(localStorage.getItem("highScore"))];
     };
+
     //grab time for score
     playerScore = timer.textContent;
     console.log(playerScore);
