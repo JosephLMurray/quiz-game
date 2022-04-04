@@ -37,10 +37,13 @@ var timer = document.getElementById("timer-count");
 startButton.addEventListener("click", function(event){
     event.preventDefault();
     countdown();
-    
+    gameState();    
 });
 
-function countdown() {
+const gameState = () => {
+
+};
+const countdown = () => {
   
     var timeLeft = 60;
       
@@ -71,3 +74,24 @@ const populatePossibles = () => {
         field.textContent= questionObj.possibles.splice(Math.floor(Math.random()*questionObj.possibles.length), 1);
     });
 };
+
+//check game state
+if (questions.length === 0) {
+    playerScore = timer.textContent;
+    playerName = prompt("Congratulations! Enter your name:");
+
+//TODO: Create highScore array of Objects. sort by score. trim to 10 places. save to local storage.
+    highScore = [{pName:"", score:""}];
+
+    unshift.highScore({playerName, playerScore});
+
+    highScore.sort((a, b) => {
+        return a.score - b.score;
+    });
+
+    highScore = highScore.slice(0, 9);
+
+    localStorage.setItem("highScore", JSON.stringify(highScore));
+
+
+}
