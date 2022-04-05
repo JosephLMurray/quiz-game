@@ -1,34 +1,31 @@
 var returnButton = document.getElementById("return-button");
 var sContainer = document.getElementById("score-container");
-//grab highScore from local storage
+var resetButton = document.getElementById("resetButton");
+var headers = ['Name', 'Score'];
 var highScores = []; 
 
-
+//grab highScore from local storage
 const checkHS = () => {
     highScores = localStorage.getItem("highScore");
     console.log(highScores);
     if (highScores !== null ) {
         highScores = JSON.parse(highScores);
     }
-    console.log(highScores);
 };
 
-//sort high scores from high to low
+//sort highScores from high to low
 const sortScores = () => {
     highScores.sort((a,b) => (a.score > b.score) ? -1 : ((b.score > a.score) ? 1 : 0))
-    console.log(highScores);
 };
 
-//TODO: trim list to 10 or less
+//Trim scores list to 10 or less
 const trimScores = () => {
-    console.log(highScores);
     if (highScores.length > 10) {
         highScores = highScores.slice(0, 9);
     };
 };
 
-var headers = ['Name', 'Score'];
-
+//creates table from score array of objects
 const generateScores = () => {
     let table = document.createElement('table');
     let headerRow = document.createElement('tr');
@@ -55,6 +52,7 @@ const generateScores = () => {
     sContainer.appendChild(table);
 };
 
+//calls all the programs to create the High Scores
 const scoreBoard = () => {
     checkHS();
     sortScores();
@@ -62,4 +60,12 @@ const scoreBoard = () => {
     generateScores();
 }
 
+//generates the scores on page load
 window.onload = scoreBoard();
+
+//listener to clear local storage and refresh page
+resetButton.addEventListener("click", function(event){
+    event.preventDefault();
+    localStorage.clear();
+    location.reload();
+});
