@@ -41,14 +41,13 @@ startButton.addEventListener("click", function(event){
 
 
 const gameUpdate = () => {
-    if (gameData.length !== 0) {
-        selectQuestion();
-        populateQuestion();
-        populatePossibles();    
-    } else if (gameData.length === 0) {
-    logHighScore();
-    location.reload();
+    if (gameData.length === 0) {
+        logHighScore();
+        location.reload();
     };
+    selectQuestion();
+    populateQuestion();
+    populatePossibles(); 
 };
 
 const checkAnswer = (element) =>{
@@ -64,7 +63,7 @@ const countdown = () => {
         timeLeft--;
         timer.textContent = timeLeft;
   
-        if(timeLeft === 0) {
+        if(timeLeft <= 0) {
             clearInterval(timeInterval);
             location.reload();
         }
@@ -86,34 +85,21 @@ const populatePossibles = () => {
     });
 };
 
-// const checkGameState = () => {
-
-//         logHighScore();
-//     }
-// }
-
 const logHighScore = () => {
-    highScore = [];
-    //grab highscores from local storage
-    if (localStorage.getItem("highScore") !== null) {
-        
-        highScore = [JSON.parse(localStorage.getItem("highScore"))];
-    };
-
-    //grab time for score
-    playerScore = timer.textContent;
+    let highScore = getPrevScores();
     //prompt for player name
     playerName = prompt("Congratulations! Enter your name:");
- 
-    let scoreObj = {
-        pName: playerName.trim(),
-        score: playerScore
-    };
     //insert into High Scores array of objects
-    highScore.unshift(scoreObj);
+    highScore.push({pName: playerName.trim(), score: timeLeft});
+    endGame(highScore);
+};
 
+const getPrevScores = () =>{
+    return localStorage.getItem("highScore") !== null ? JSON.parse(localStorage.getItem("highScore")) : []
+};
+
+const endGame = (highScore) =>{
     //log highScore to local storage
     localStorage.setItem("highScore", JSON.stringify(highScore));
-
     location.reload;
-}
+};
