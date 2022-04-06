@@ -7,7 +7,6 @@ var highScores = [];
 //grab highScore from local storage
 const checkHS = () => {
     highScores = localStorage.getItem("highScore");
-    console.log(highScores);
     if (highScores !== null ) {
         highScores = JSON.parse(highScores);
     }
